@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Receiver</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f7f7f7; }
+    img { max-width: 90%; margin: 20px; border: 2px solid #ccc; border-radius: 10px; }
+    .text { font-size: 28px; margin: 12px; }
+  </style>
+</head>
+<body>
+  <h2>📺 Latest Content</h2>
+  <div id="texts"></div>
+  <img id="image" />
+
+  <script>
+    async function fetchLatest() {
+      try {
+        const res = await fetch('/latest');
+        const data = await res.json();
+
+        document.getElementById('texts').innerHTML = `
+          <div class="text">🇵🇰 Punjabi: ${data.punjabi || ''}</div>
+          <div class="text">🇮🇳 Hindi: ${data.hindi || ''}</div>
+          <div class="text">🇬🇧 English: ${data.english || ''}</div>
+        `;
+
+        if (data.image) {
+          document.getElementById('image').src = data.image + '?t=' + Date.now();
+        }
+      } catch (e) {
+        console.error("Error fetching latest:", e);
+      }
+    }
+
+    setInterval(fetchLatest, 3000);
+    fetchLatest();
+  </script>
+</body>
+</html>

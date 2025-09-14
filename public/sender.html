@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sender</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 8px 0; padding: 8px; width: 100%; }
+  </style>
+</head>
+<body>
+  <h2>Upload Text + Image</h2>
+  <form id="uploadForm">
+    <label>Panjabi: <input type="text" name="punjabi" required></label><br>
+    <label>Hindi: <input type="text" name="hindi" required></label><br>
+    <label>English: <input type="text" name="english" required></label><br>
+    <label>Image: <input type="file" name="image" accept="image/*"></label><br>
+    <button type="submit">Upload</button>
+  </form>
+  <p id="msg"></p>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const msg = document.getElementById('msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+
+      const res = await fetch('/upload', { method: 'POST', body: data });
+      const result = await res.json();
+
+      msg.innerText = "✅ Uploaded!";
+      console.log(result);
+    });
+  </script>
+</body>
+</html>
